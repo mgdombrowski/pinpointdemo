@@ -1,0 +1,45 @@
+{
+  "Comment": "Order pick process!",
+  "StartAt": "StartOrderState",
+  "States": {
+    "StartOrderState": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:us-east-1:964214137428:function:StartOrder",
+      "TimeoutSeconds": 300,
+      "Next": "wait_ten_seconds"
+    },
+    "wait_ten_seconds": {
+      "Type": "Wait",
+      "Seconds": 10,
+      "Next": "ManualApproval"
+    },
+    "ManualApproval": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:us-east-1:964214137428:activity:ReplacementStep",
+      "TimeoutSeconds": 3600,
+      "Next": "wait_ten_seconds2"
+    },
+    "wait_ten_seconds2": {
+      "Type": "Wait",
+      "Seconds": 10,
+      "Next": "PickupOrderState"
+    },
+    "PickupOrderState": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:us-east-1:964214137428:function:PickupOrder",
+      "TimeoutSeconds": 300,
+      "Next": "wait_ten_seconds3"
+    },
+    "wait_ten_seconds3": {
+      "Type": "Wait",
+      "Seconds": 10,
+      "Next": "CompleteOrderState"
+    },
+    "CompleteOrderState": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:us-east-1:964214137428:function:CompleteOrder",
+      "TimeoutSeconds": 300,
+      "End": true
+    }
+  }
+}

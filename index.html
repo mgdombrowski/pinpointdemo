@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Substitute</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+
+<h3>We're going to substitute item X for item Y.</h3>
+
+<p>Click <a href="" id="approve">here</a> to approve the substitute.</p>
+<p>Click <a href="" id="deny">here</a> to deny the substitute and cancel your order.</p>
+
+<script>
+    function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+    var token = getParameterByName("taskToken");
+    var failurl = 'https://ncksihlihe.execute-api.us-east-1.amazonaws.com/dev/fail?taskToken=' + encodeURIComponent(token);
+    var succeedurl = 'https://ncksihlihe.execute-api.us-east-1.amazonaws.com/dev/succeed?taskToken=' + encodeURIComponent(token);
+
+    document.getElementById("approve").href=succeedurl;
+    document.getElementById("deny").href=failurl;
+</script>
+
+</body>
+</html>
